@@ -47,9 +47,7 @@ mousegrabber_grab(xcb_cursor_t cursor)
         xcb_grab_pointer_reply_t *grab_ptr_r;
         xcb_grab_pointer_cookie_t grab_ptr_c =
             xcb_grab_pointer_unchecked(globalconf.connection, true, root,
-                                       XCB_EVENT_MASK_BUTTON_PRESS
-                                       | XCB_EVENT_MASK_BUTTON_RELEASE
-                                       | XCB_EVENT_MASK_POINTER_MOTION,
+                                       XCB_NONE,
                                        XCB_GRAB_MODE_ASYNC,
                                        XCB_GRAB_MODE_ASYNC,
                                        root, cursor, XCB_CURRENT_TIME);
