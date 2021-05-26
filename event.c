@@ -541,24 +541,6 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
     if(event_handle_mousegrabber(ev->root_x, ev->root_y, ev->state))
         return;
 
-    if ((c = client_getbywin(ev->event)))
-    {
-        luaA_object_push(L, c);
-        lua_pushinteger(L, ev->event_x);
-        lua_pushinteger(L, ev->event_y);
-        luaA_object_emit_signal(L, -3, "mouse::move", 2);
-        lua_pop(L, 1);
-    }
-
-    if ((c = client_getbynofocuswin(ev->event)))
-    {
-        luaA_object_push(L, c);
-        lua_pushinteger(L, ev->event_x);
-        lua_pushinteger(L, ev->event_y);
-        luaA_object_emit_signal(L, -3, "mouse::move", 2);
-        lua_pop(L, 1);
-    }
-
     if((c = client_getbyframewin(ev->event)))
     {
         luaA_object_push(L, c);
@@ -569,7 +551,7 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
         /* now check if a titlebar was "hit" */
         int x = ev->event_x, y = ev->event_y;
         drawable_t *d = client_get_drawable_offset(c, &x, &y);
-        if (d)
+        if (true)
         {
             luaA_object_push_item(L, -1, d);
             event_drawable_under_mouse(L, -1);
