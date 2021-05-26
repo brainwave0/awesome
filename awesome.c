@@ -619,14 +619,13 @@ main(int argc, char **argv)
         bool success = true;
         /* Get the first config that will be tried */
         const char *config = luaA_find_config(&xdg, confpath, true_config_callback);
-        fprintf(stdout, "Checking config '%s'... ", config);
 
         /* Try to parse it */
         lua_State *L = luaL_newstate();
         if(luaL_loadfile(L, config))
         {
             const char *err = lua_tostring(L, -1);
-            fprintf(stdout, "\nERROR: %s\n", err);
+            fprintf(stderr, "%s\n", err);
             success = false;
         }
         p_delete(&config);
@@ -634,11 +633,12 @@ main(int argc, char **argv)
 
         if(!success)
         {
+            fprintf(stderr, "✘ Configuration file syntax error.\n");
             return EXIT_FAILURE;
         }
         else
         {
-            fprintf(stdout, "OK\n");
+            fprintf(stderr, "✔ Configuration file syntax OK.\n");
             return EXIT_SUCCESS;
         }
     }
