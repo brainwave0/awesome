@@ -546,7 +546,7 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
         luaA_object_push(L, c);
         lua_pushinteger(L, ev->event_x);
         lua_pushinteger(L, ev->event_y);
-        luaA_object_emit_signal(L, -3, "mouse::motion", 2);
+        luaA_object_emit_signal(L, -3, "mouse::move", 2);
         lua_pop(L, 1);
     }
 
@@ -555,7 +555,7 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
         luaA_object_push(L, c);
         lua_pushinteger(L, ev->event_x);
         lua_pushinteger(L, ev->event_y);
-        luaA_object_emit_signal(L, -3, "mouse::motion", 2);
+        luaA_object_emit_signal(L, -3, "mouse::move", 2);
         lua_pop(L, 1);
     }
 
