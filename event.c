@@ -545,6 +545,7 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
     lua_pushinteger(L, ev->event_x);
     lua_pushinteger(L, ev->event_y);
     luaA_object_emit_signal(L, -3, "mouse::motion", 2);
+    lua_pop(L, 1);
 
 
     if((c = client_getbyframewin(ev->event)))
