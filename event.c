@@ -538,6 +538,8 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
 
     globalconf.timestamp = ev->time;
 
+    luaA_object_emit_signal(L, 0, "mouse::move", 2);
+
     if(event_handle_mousegrabber(ev->root_x, ev->root_y, ev->state))
         return;
 
@@ -551,7 +553,7 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
         /* now check if a titlebar was "hit" */
         int x = ev->event_x, y = ev->event_y;
         drawable_t *d = client_get_drawable_offset(c, &x, &y);
-        if (true)
+        if (d)
         {
             luaA_object_push_item(L, -1, d);
             event_drawable_under_mouse(L, -1);
