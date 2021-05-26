@@ -541,12 +541,23 @@ event_handle_motionnotify(xcb_motion_notify_event_t *ev)
     if(event_handle_mousegrabber(ev->root_x, ev->root_y, ev->state))
         return;
 
-    luaA_object_push(L, c);
-    lua_pushinteger(L, ev->event_x);
-    lua_pushinteger(L, ev->event_y);
-    luaA_object_emit_signal(L, -3, "mouse::motion", 2);
-    lua_pop(L, 1);
+    if ((c = client_getbywin(ev->event)))
+    {
+        luaA_object_push(L, c);
+        lua_pushinteger(L, ev->event_x);
+        lua_pushinteger(L, ev->event_y);
+        luaA_object_emit_signal(L, -3, "mouse::motion", 2);
+        lua_pop(L, 1);
+    }
 
+    if ((c = client_getbynofocuswin(ev->event)))
+    {
+        luaA_object_push(L, c);
+        lua_pushinteger(L, ev->event_x);
+        lua_pushinteger(L, ev->event_y);
+        luaA_object_emit_signal(L, -3, "mouse::motion", 2);
+        lua_pop(L, 1);
+    }
 
     if((c = client_getbyframewin(ev->event)))
     {
